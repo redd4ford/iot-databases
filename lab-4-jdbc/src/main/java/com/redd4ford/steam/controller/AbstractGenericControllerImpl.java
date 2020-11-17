@@ -1,10 +1,6 @@
 package com.redd4ford.steam.controller;
 
 import com.redd4ford.steam.model.dao.AbstractGenericDao;
-import com.redd4ford.steam.util.DatabaseConnector;
-import org.mozilla.javascript.Symbol;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
