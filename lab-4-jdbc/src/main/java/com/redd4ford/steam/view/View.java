@@ -16,6 +16,7 @@ import com.redd4ford.steam.model.entity.Genre;
 import com.redd4ford.steam.model.entity.Platform;
 import com.redd4ford.steam.model.entity.Publisher;
 import com.redd4ford.steam.model.entity.SupportedBrowser;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,7 +24,7 @@ import java.util.Scanner;
 
 public class View {
 
-  private static final Scanner SCANNER = new Scanner(System.in);
+  private static final Scanner SCANNER = new Scanner(System.in, StandardCharsets.UTF_8);
   private final AccountController accountController = new AccountController();
   private final AccountProtectedDataController accountProtectedDataController =
       new AccountProtectedDataController();
