@@ -1,14 +1,16 @@
 package com.redd4ford.steam.controller.impl;
 
 import com.redd4ford.steam.controller.AbstractGenericControllerImpl;
+import com.redd4ford.steam.model.dao.AbstractGenericDaoImpl;
 import com.redd4ford.steam.model.dao.impl.GameDaoImpl;
 import com.redd4ford.steam.model.entity.Game;
 
 public class GameController
-    extends AbstractGenericControllerImpl<Game, GameDaoImpl> {
+    extends AbstractGenericControllerImpl<Game> {
 
-  public GameController() {
-    super(GameDaoImpl.class);
+  @Override
+  public AbstractGenericDaoImpl<Game> getDao() {
+    return new GameDaoImpl();
   }
 
 }
