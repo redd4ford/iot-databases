@@ -19,15 +19,11 @@ public class DatabaseConnector {
     try {
       Class.forName(JDBC_DRIVER);
       if (DATABASE_CONNECTION == null || DATABASE_CONNECTION.isClosed()) {
-        try {
-          DATABASE_CONNECTION = DriverManager.getConnection(
-              DATABASE_URL,
-              USERNAME,
-              PASSWORD
-          );
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        DATABASE_CONNECTION = DriverManager.getConnection(
+            DATABASE_URL,
+            USERNAME,
+            PASSWORD
+        );
       }
     } catch (Exception e) {
       e.printStackTrace();
