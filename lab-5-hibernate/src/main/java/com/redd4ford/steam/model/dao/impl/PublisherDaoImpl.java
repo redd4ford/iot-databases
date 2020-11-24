@@ -19,7 +19,7 @@ public class PublisherDaoImpl extends AbstractGenericDaoImpl<Publisher> {
     try {
       session.beginTransaction();
       System.out.println("[SQL] select * from publisher where country_id = " + countryId);
-      publishersByCountryId = session.createQuery("from Publisher where countryId = " + countryId)
+      publishersByCountryId = session.createQuery("from Publisher where country.id = " + countryId)
           .getResultList();
       session.getTransaction().commit();
     } catch (Exception e) {

@@ -1,12 +1,7 @@
 package com.redd4ford.steam.model.entity;
 
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "account")
 @Entity
@@ -17,8 +12,9 @@ public class Account {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "country_id")
-  private Integer countryId;
+  @ManyToOne
+  @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
+  private Country country;
 
   @Column(name = "account_name")
   private String accountName;
@@ -29,10 +25,10 @@ public class Account {
   @Column(name = "is_online")
   private Integer isOnline;
 
-  public Account(Integer id, Integer countryId, String accountName, Integer level,
+  public Account(Integer id, Country country, String accountName, Integer level,
                  Integer isOnline) {
     this.id = id;
-    this.countryId = countryId;
+    this.country = country;
     this.accountName = accountName;
     this.level = level;
     this.isOnline = isOnline;
@@ -51,7 +47,7 @@ public class Account {
     }
     Account account = (Account) o;
     return id.equals(account.id)
-        && countryId.equals(account.countryId)
+        && country.equals(account.country)
         && accountName.equals(account.accountName)
         && level.equals(account.level)
         && isOnline.equals(account.isOnline);
@@ -59,14 +55,14 @@ public class Account {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, countryId, accountName, level, isOnline);
+    return Objects.hash(id, country, accountName, level, isOnline);
   }
 
   @Override
   public String toString() {
     return "Account{"
         + "id=" + id + ", "
-        + "countryId=" + countryId + ", "
+        + "countryId=" + country.getId() + ", "
         + "accountName='" + accountName + "', "
         + "level=" + level + ", "
         + "isOnline=" + isOnline
@@ -81,12 +77,12 @@ public class Account {
     this.id = id;
   }
 
-  public Integer getCountryId() {
-    return countryId;
+  public Country getCountry() {
+    return country;
   }
 
-  public void setCountryId(Integer countryId) {
-    this.countryId = countryId;
+  public void setCountry(Country country) {
+    this.country = country;
   }
 
   public String getAccountName() {

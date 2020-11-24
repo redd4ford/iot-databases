@@ -19,7 +19,7 @@ public class AccountDaoImpl extends AbstractGenericDaoImpl<Account> {
     try {
       session.beginTransaction();
       System.out.println("[SQL] select * from account where country_id = " + countryId);
-      accountsByCountryId = session.createQuery("from Account where countryId = " + countryId)
+      accountsByCountryId = session.createQuery("from Account where country.id = " + countryId)
           .getResultList();
       session.getTransaction().commit();
     } catch (Exception e) {

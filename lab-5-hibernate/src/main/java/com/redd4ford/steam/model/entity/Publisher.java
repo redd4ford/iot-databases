@@ -1,12 +1,8 @@
 package com.redd4ford.steam.model.entity;
 
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Set;
+import javax.persistence.*;
 
 @Table(name = "publisher")
 @Entity
@@ -20,13 +16,29 @@ public class Publisher {
   @Column(name = "name")
   private String name;
 
-  @Column(name = "country_id")
-  private Integer countryId;
+  @ManyToOne
+  @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
+  private Country country;
 
-  public Publisher(Integer id, String name, Integer countryId) {
+  @OneToMany(mappedBy = "publisher", fetch = FetchType.EAGER)
+  private Set<Game> games;
+
+  public Publisher(Integer id, String name, Country country, Set<Game> games) {
     this.id = id;
     this.name = name;
-    this.countryId = countryId;
+    this.country = country;
+    this.games = games;
+  }
+
+  public Publisher(Integer id, String name, Country country) {
+    this.id = id;
+    this.name = name;
+    this.country = country;
+  }
+
+  public Publisher(Integer id, String name) {
+    this.id = id;
+    this.name = name;
   }
 
   public Publisher() {
@@ -43,12 +55,12 @@ public class Publisher {
     Publisher publisher = (Publisher) o;
     return id.equals(publisher.id)
         && name.equals(publisher.name)
-        && countryId.equals(publisher.countryId);
+        && country.equals(publisher.country);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, countryId);
+    return Objects.hash(id, name, country);
   }
 
   @Override
@@ -56,7 +68,7 @@ public class Publisher {
     return "Publisher{"
         + "id=" + id + ", "
         + "name='" + name + "', "
-        + "countryId=" + countryId
+        + "countryId=" + country.getId()
         + "};";
   }
 
@@ -76,12 +88,20 @@ public class Publisher {
     this.name = name;
   }
 
-  public Integer getCountryId() {
-    return countryId;
+  public Country getCountry() {
+    return country;
   }
 
-  public void setCountryId(Integer countryId) {
-    this.countryId = countryId;
+  public void setCountry(Country country) {
+    this.country = country;
+  }
+
+  public Set<Game> getGames() {
+    return games;
+  }
+
+  public void setGames(Set<Game> games) {
+    this.games = games;
   }
 
 }

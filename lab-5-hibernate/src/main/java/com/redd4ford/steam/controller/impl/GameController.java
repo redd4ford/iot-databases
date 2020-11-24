@@ -25,4 +25,8 @@ public class GameController
     return gameDao.findByPublisherId(session, id);
   }
 
+  public void findGenres() {
+    gameDao.findGenresForGames(session);
+  }
+
 }

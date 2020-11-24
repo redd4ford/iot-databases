@@ -2,15 +2,7 @@ package com.redd4ford.steam.model.entity;
 
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "game")
 @Entity
@@ -21,8 +13,9 @@ public class Game {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "publisher_id")
-  private Integer publisherId;
+  @ManyToOne
+  @JoinColumn(name = "publisher_id", referencedColumnName = "id", nullable = false)
+  private Publisher publisher;
 
   @Column(name = "title")
   private String title;
@@ -48,10 +41,10 @@ public class Game {
       ))
   private Set<Genre> genres;
 
-  public Game(Integer id, Integer publisherId, String title, Integer rating, String releaseDate,
+  public Game(Integer id, Publisher publisher, String title, Integer rating, String releaseDate,
               Integer priceInUah, Set<Genre> genres) {
     this.id = id;
-    this.publisherId = publisherId;
+    this.publisher = publisher;
     this.title = title;
     this.rating = rating;
     this.releaseDate = releaseDate;
@@ -59,15 +52,14 @@ public class Game {
     this.genres = genres;
   }
 
-  public Game(Integer id, Integer publisherId, String title, Integer rating, String releaseDate,
+  public Game(Integer id, Publisher publisher, String title, Integer rating, String releaseDate,
               Integer priceInUah) {
     this.id = id;
-    this.publisherId = publisherId;
+    this.publisher = publisher;
     this.title = title;
     this.rating = rating;
     this.releaseDate = releaseDate;
     this.priceInUah = priceInUah;
-    this.genres = null;
   }
 
   public Game() {
@@ -83,7 +75,7 @@ public class Game {
     }
     Game game = (Game) o;
     return id.equals(game.id)
-        && publisherId.equals(game.publisherId)
+        && publisher.equals(game.publisher)
         && title.equals(game.title)
         && Objects.equals(rating, game.rating)
         && Objects.equals(releaseDate, game.releaseDate)
@@ -92,14 +84,14 @@ public class Game {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, publisherId, title, rating, releaseDate, priceInUah);
+    return Objects.hash(id, publisher, title, rating, releaseDate, priceInUah);
   }
 
   @Override
   public String toString() {
     return "Game{"
         + "id=" + id + ", "
-        + "publisherId=" + publisherId + ", "
+        + "publisherId=" + publisher.getId() + ", "
         + "title='" + title + "', "
         + "rating=" + rating + ", "
         + "releaseDate='" + releaseDate + "', "
@@ -115,12 +107,12 @@ public class Game {
     this.id = id;
   }
 
-  public Integer getPublisherId() {
-    return publisherId;
+  public Publisher getPublisher() {
+    return publisher;
   }
 
-  public void setPublisherId(Integer publisherId) {
-    this.publisherId = publisherId;
+  public void setPublisher(Publisher publisher) {
+    this.publisher = publisher;
   }
 
   public String getTitle() {

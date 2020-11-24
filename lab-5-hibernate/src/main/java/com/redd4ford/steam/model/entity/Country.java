@@ -1,12 +1,8 @@
 package com.redd4ford.steam.model.entity;
 
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Set;
+import javax.persistence.*;
 
 @Table(name = "country")
 @Entity
@@ -19,6 +15,19 @@ public class Country {
 
   @Column(name = "name")
   private String name;
+
+  @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
+  private Set<Account> accounts;
+
+  @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
+  private Set<Publisher> publishers;
+
+  public Country(Integer id, String name, Set<Account> accounts, Set<Publisher> publishers) {
+    this.id = id;
+    this.name = name;
+    this.accounts = accounts;
+    this.publishers = publishers;
+  }
 
   public Country(Integer id, String name) {
     this.id = id;
@@ -68,6 +77,22 @@ public class Country {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Set<Account> getAccounts() {
+    return accounts;
+  }
+
+  public void setAccounts(Set<Account> accounts) {
+    this.accounts = accounts;
+  }
+
+  public Set<Publisher> getPublishers() {
+    return publishers;
+  }
+
+  public void setPublishers(Set<Publisher> publishers) {
+    this.publishers = publishers;
   }
 
 }

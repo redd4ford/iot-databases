@@ -71,6 +71,7 @@ public class View {
     menu.put("53", this::createGenre);
     menu.put("54", this::updateGenre);
     menu.put("55", this::deleteGenre);
+    menu.put("56", this::getGenresForGames);
 
     menu.put("61", this::getAllPublishers);
     menu.put("62", this::getPublisherById);
@@ -164,7 +165,7 @@ public class View {
       isOnline = 0;
     }
 
-    return new Account(0, countryId, accountName, level, isOnline);
+    return new Account(0, countryController.findOne(countryId), accountName, level, isOnline);
   }
 
   private void createAccount() {
@@ -311,7 +312,8 @@ public class View {
     System.out.println("Enter price (UAH): ");
     Integer priceInUah = SCANNER.nextInt();
 
-    return new Game(0, publisherId, title, rating, releaseDate, priceInUah);
+    return new Game(0, publisherController.findOne(publisherId), title, rating, releaseDate,
+        priceInUah);
   }
 
   private void createGame() {
@@ -384,6 +386,10 @@ public class View {
     System.out.println("Genre with ID=" + id + " successfully deleted\n");
   }
 
+  private void getGenresForGames() {
+    gameController.findGenres();
+  }
+
 
 
   private void getAllPublishers() {
@@ -403,7 +409,7 @@ public class View {
     System.out.println("\nEnter country ID: ");
     Integer countryId = SCANNER.nextInt();
 
-    return new Publisher(0, name, countryId);
+    return new Publisher(0, name, countryController.findOne(countryId));
   }
 
   private void createPublisher() {
