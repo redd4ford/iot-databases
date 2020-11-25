@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
-import org.hibernate.Session;
 
 public class View {
 
@@ -30,14 +29,14 @@ public class View {
 
   private final Map<String, Printable> menu = new LinkedHashMap<>();
 
-  public View(Session session) {
+  public View() {
 
-    accountController = new AccountController(session);
-    accountProtectedDataController = new AccountProtectedDataController(session);
-    countryController = new CountryController(session);
-    gameController = new GameController(session);
-    genreController = new GenreController(session);
-    publisherController = new PublisherController(session);
+    accountController = new AccountController();
+    accountProtectedDataController = new AccountProtectedDataController();
+    countryController = new CountryController();
+    gameController = new GameController();
+    genreController = new GenreController();
+    publisherController = new PublisherController();
 
     menu.put("11", this::getAllAccounts);
     menu.put("12", this::getAccountById);
@@ -86,12 +85,12 @@ public class View {
     System.out.println("                 Enter XY to choose the option, where:");
     System.out.println("=======================================================================");
     System.out.println("X - entity number:                 |       Y - CRUD number:");
-    System.out.println("  1 - account                      |         1 - GET ALL");
+    System.out.println("  1 - account *                    |         1 - GET ALL");
     System.out.println("  2 - account protected data       |         2 - GET ONE");
     System.out.println("  3 - country                      |         3 - CREATE");
-    System.out.println("  4 - game                         |         4 - UPDATE");
-    System.out.println("  5 - genre                        |         5 - DELETE");
-    System.out.println("  6 - publisher                    |         6 - GET BY RELATIONS");
+    System.out.println("  4 - game *                       |         4 - UPDATE");
+    System.out.println("  5 - genre *                      |         5 - DELETE");
+    System.out.println("  6 - publisher *                  |         6 - GET BY RELATIONS");
     System.out.println("E.G. accounts (X=1) - get all (Y=1): 11");
     System.out.println("     country (X=3) - update (Y=4): 34");
     System.out.println("     game (X=4) - get one (Y=2): 42");
@@ -155,17 +154,15 @@ public class View {
   private Account getAccountInputs() {
     System.out.println("\nEnter country ID: ");
     Integer countryId = SCANNER.nextInt();
+    Country country = countryController.findOne(countryId);
     System.out.println("Enter account name: ");
     String accountName = SCANNER.next();
     System.out.println("Enter level: ");
     Integer level = SCANNER.nextInt();
     System.out.println("Enter online status (1 - online/0 - offline): ");
     int isOnline = SCANNER.nextInt();
-    if (isOnline != 1) {
-      isOnline = 0;
-    }
 
-    return new Account(0, countryController.findOne(countryId), accountName, level, isOnline);
+    return new Account(0, country, accountName, level, isOnline);
   }
 
   private void createAccount() {
@@ -303,6 +300,7 @@ public class View {
   private Game getGameInputs() {
     System.out.println("\nEnter publisher ID: ");
     Integer publisherId = SCANNER.nextInt();
+    Publisher publisher = publisherController.findOne(publisherId);
     System.out.println("Enter title: ");
     String title = SCANNER.next();
     System.out.println("Enter rating (0-100): ");
@@ -312,7 +310,7 @@ public class View {
     System.out.println("Enter price (UAH): ");
     Integer priceInUah = SCANNER.nextInt();
 
-    return new Game(0, publisherController.findOne(publisherId), title, rating, releaseDate,
+    return new Game(0, publisher, title, rating, releaseDate,
         priceInUah);
   }
 
@@ -408,8 +406,9 @@ public class View {
     String name = SCANNER.next();
     System.out.println("\nEnter country ID: ");
     Integer countryId = SCANNER.nextInt();
+    Country country = countryController.findOne(countryId);
 
-    return new Publisher(0, name, countryController.findOne(countryId));
+    return new Publisher(0, name, country);
   }
 
   private void createPublisher() {

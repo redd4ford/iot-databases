@@ -2,20 +2,28 @@ package com.redd4ford.steam.model.entity;
 
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Table(name = "country")
 @Entity
 public class Country {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private Integer id;
 
   @Column(name = "name")
   private String name;
 
+  // його неможливо сортувати
   @OneToMany(mappedBy = "country", fetch = FetchType.EAGER)
   private Set<Account> accounts;
 

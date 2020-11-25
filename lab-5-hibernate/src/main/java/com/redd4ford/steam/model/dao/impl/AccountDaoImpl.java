@@ -13,12 +13,11 @@ public class AccountDaoImpl extends AbstractGenericDaoImpl<Account> {
   }
 
   @SuppressWarnings("unchecked")
-  public List<Account> findByCountryId(Session session, Integer countryId) {
+  public List<Account> findByCountryId(Integer countryId) {
     List<Account> accountsByCountryId = new ArrayList<>();
 
-    try {
+    try (Session session = sessionFactory.getCurrentSession()) {
       session.beginTransaction();
-      System.out.println("[SQL] select * from account where country_id = " + countryId);
       accountsByCountryId = session.createQuery("from Account where country.id = " + countryId)
           .getResultList();
       session.getTransaction().commit();

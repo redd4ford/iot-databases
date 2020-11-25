@@ -13,12 +13,11 @@ public class PublisherDaoImpl extends AbstractGenericDaoImpl<Publisher> {
   }
 
   @SuppressWarnings("unchecked")
-  public List<Publisher> findByCountryId(Session session, Integer countryId) {
+  public List<Publisher> findByCountryId(Integer countryId) {
     List<Publisher> publishersByCountryId = new ArrayList<>();
 
-    try {
+    try (Session session = sessionFactory.getCurrentSession()) {
       session.beginTransaction();
-      System.out.println("[SQL] select * from publisher where country_id = " + countryId);
       publishersByCountryId = session.createQuery("from Publisher where country.id = " + countryId)
           .getResultList();
       session.getTransaction().commit();
