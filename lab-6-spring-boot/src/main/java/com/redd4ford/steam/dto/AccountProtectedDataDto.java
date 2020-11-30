@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountDto {
+public class AccountProtectedDataDto {
 
   private Integer id;
-  private String countryName;
-  private String accountName;
-  private Integer level;
+  private String email;
 
 }

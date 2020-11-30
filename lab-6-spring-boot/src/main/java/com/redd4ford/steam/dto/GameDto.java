@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountDto {
+public class GameDto {
 
   private Integer id;
-  private String countryName;
-  private String accountName;
-  private Integer level;
+  private String publisherName;
+  private String title;
+  private Integer priceInUah;
 
 }

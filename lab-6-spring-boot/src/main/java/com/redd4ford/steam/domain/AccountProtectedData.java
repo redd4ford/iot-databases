@@ -1,14 +1,13 @@
 package com.redd4ford.steam.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Table(name = "account_protected_data")
@@ -16,8 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode
-@Builder
 public class AccountProtectedData implements Serializable {
 
   @Id
@@ -29,6 +26,25 @@ public class AccountProtectedData implements Serializable {
 
   @Column(name = "email")
   private String email;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AccountProtectedData that = (AccountProtectedData) o;
+    return Objects.equals(accountId, that.accountId)
+        && Objects.equals(password, that.password)
+        && Objects.equals(email, that.email);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(accountId, password, email);
+  }
 
   @Override
   public String toString() {

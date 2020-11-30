@@ -5,6 +5,8 @@ import com.redd4ford.steam.repository.AccountRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountService extends AbstractService<Account, Integer> {
 
@@ -17,6 +19,10 @@ public class AccountService extends AbstractService<Account, Integer> {
   @Override
   protected JpaRepository<Account, Integer> getRepository() {
     return accountRepository;
+  }
+
+  public List<Account> getAllByCountryId(Integer id) {
+    return accountRepository.getAccountsByCountryId(id);
   }
 
 }

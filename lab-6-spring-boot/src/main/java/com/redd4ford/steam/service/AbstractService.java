@@ -1,7 +1,7 @@
 package com.redd4ford.steam.service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public abstract class AbstractService<T, ID> {
   protected abstract JpaRepository<T, ID> getRepository();

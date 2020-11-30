@@ -1,5 +1,7 @@
 package com.redd4ford.steam.domain;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Table(name = "game")
@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode
-@Builder
 public class Game {
 
   @Id
@@ -57,7 +55,29 @@ public class Game {
           name = "genre_id",
           referencedColumnName = "id"
       ))
-  private Set<Genre> genres;
+  private List<Genre> genres;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Game game = (Game) o;
+    return id.equals(game.id)
+        && publisher.equals(game.publisher)
+        && title.equals(game.title)
+        && Objects.equals(rating, game.rating)
+        && Objects.equals(releaseDate, game.releaseDate)
+        && priceInUah.equals(game.priceInUah);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, publisher, title, rating, releaseDate, priceInUah);
+  }
 
   @Override
   public String toString() {

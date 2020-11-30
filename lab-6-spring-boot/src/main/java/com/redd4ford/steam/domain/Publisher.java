@@ -1,5 +1,7 @@
 package com.redd4ford.steam.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Table(name = "publisher")
@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EqualsAndHashCode
-@Builder
 public class Publisher {
 
   @Id
@@ -39,7 +37,27 @@ public class Publisher {
   private Country country;
 
   @OneToMany(mappedBy = "publisher", fetch = FetchType.EAGER)
+  @JsonIgnore
   private Set<Game> games;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Publisher publisher = (Publisher) o;
+    return id.equals(publisher.id)
+        && name.equals(publisher.name)
+        && country.equals(publisher.country);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, country);
+  }
 
   @Override
   public String toString() {

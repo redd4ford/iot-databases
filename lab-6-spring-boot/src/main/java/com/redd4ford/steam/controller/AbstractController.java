@@ -1,27 +1,37 @@
 package com.redd4ford.steam.controller;
 
+import com.redd4ford.steam.mapper.AbstractMapper;
 import com.redd4ford.steam.service.AbstractService;
-import io.swagger.models.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
-public abstract class AbstractController<E, ID> {
+public abstract class AbstractController<E, DTO, ID> {
 
   protected abstract AbstractService<E, ID> getService();
 
+  protected abstract AbstractMapper<E, DTO> getMapper();
+
   @RequestMapping(method = RequestMethod.GET)
-  public @ResponseBody ResponseEntity<List<E>> getAll() {
-    return new ResponseEntity<>(getService().getAll(), HttpStatus.OK);
+  public @ResponseBody ResponseEntity<List<DTO>> getAll() {
+    List<E> objects = getService().getAll();
+    List<DTO> objectsDto = new ArrayList<>();
+    for (E object : objects) {
+      objectsDto.add(getMapper().mapObjectToDto(object));
+    }
+    return new ResponseEntity<>(objectsDto, HttpStatus.OK);
   }
 
   @RequestMapping(method = RequestMethod.GET,
       value = "/{id}")
-  public @ResponseBody ResponseEntity<E> getById(@PathVariable ID id) {
-    if (getService().getById(id) != null) {
-      return new ResponseEntity<>(getService().getById(id), HttpStatus.OK);
+  public @ResponseBody ResponseEntity<DTO> getById(@PathVariable ID id) {
+    E object = getService().getById(id);
+    if (object != null) {
+      return new ResponseEntity<>(getMapper().mapObjectToDto(object), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

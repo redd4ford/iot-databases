@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AccountDto {
+public class PublisherDto {
 
   private Integer id;
+  private String name;
   private String countryName;
-  private String accountName;
-  private Integer level;
+  private Integer gamesCounter;
 
 }
