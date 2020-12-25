@@ -48,11 +48,43 @@ DELIMITER ;
 
 -- №4: при вставці значень доповнювати surname значенням автоінкрементованого стовпця
 
+-- create trigger update_surname
+--   before insert
+--     on family_tree
+--     for each row
+-- begin
+--   set new.surname := CONCAT(new.surname, (
+--   select `auto_increment` 
+--   from INFORMATION_SCHEMA.TABLES    
+--   where table_name = 'family_tree')
+-- );
+-- end
+-- //
+-- DELIMITER ;
+
+-- DELIMITER //
+-- create trigger update_surname
+--   before insert
+--     on family_tree
+--     for each row
+-- begin
+-- 	if (select MAX(id) from family_tree) is not NULL then
+-- 		set @ids = (select MAX(id) from family_tree) + 1;
+-- 	else begin
+-- 		set @ids = 1;
+-- 		end;
+-- 	end if;
+
+-- 	set new.surname := CONCAT(new.surname, @ids);
+-- end
+-- //
+-- DELIMITER ;
+
 drop trigger if exists update_surname;
 
-set @ids = (SELECT `auto_increment` 
-      FROM INFORMATION_SCHEMA.TABLES    
-      WHERE table_name = 'family_tree');
+set @ids = (select `auto_increment` 
+      from INFORMATION_SCHEMA.TABLES    
+      where table_name = 'family_tree');
 
 DELIMITER //
 create trigger update_surname

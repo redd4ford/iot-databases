@@ -38,5 +38,5 @@ DELIMITER ;
 
 -- вибірка даних
 
-select get_max_max_price();
-select *, get_sex_name(f.id) as sex_name from family_tree f;
+-- select get_max_max_price();
+-- select *, get_sex_name(f.id) as sex_name from family_tree f;

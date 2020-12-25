@@ -32,12 +32,12 @@ DELIMITER ;
 drop procedure if exists print_many_to_many;
 
 DELIMITER //
-create procedure print_many_to_many ()
+create procedure print_many_to_many()
 begin
 	select CONCAT(f.surname, ', ', f.name) as full_name, fi.name as value_name
 	from member_has_value
 	join family_tree f on f.id = family_tree_id
-	join family_values fi on fi.id = family_items_id;
+	join family_values fi on fi.id = family_values_id;
 end //
 DELIMITER ;
 

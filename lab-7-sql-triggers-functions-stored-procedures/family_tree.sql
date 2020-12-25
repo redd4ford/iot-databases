@@ -7,6 +7,9 @@ drop table if exists family_life_partners;
 drop table if exists member_has_value;
 drop table if exists sex;
 
+drop table if exists new_tree_1;
+drop table if exists new_tree_2;
+
 -- ------------------------------------------------- --
 --                   FAMILY TREE                     --
 -- ------------------------------------------------- --
